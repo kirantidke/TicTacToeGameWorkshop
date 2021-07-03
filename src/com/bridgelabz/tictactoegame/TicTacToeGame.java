@@ -1,7 +1,9 @@
 package com.bridgelabz.tictactoegame;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
+
 
 public class TicTacToeGame {
 	private static final char EMPTY = ' ';
@@ -16,6 +18,22 @@ public class TicTacToeGame {
 		board = new char[10];
 		Arrays.fill(board, EMPTY);
 
+	}
+	
+	private TicTacToeGame(char[] board) {
+		this.board = board;
+	}
+
+	public TicTacToeGame getCopy() {
+		return new TicTacToeGame(this.board);
+	}
+
+	public char getComputerSymbol() {
+		return playerSymbol;
+	}
+
+	public char getComputerSymbol() {
+		return computerSymbol;
 	}
 
 	private static int getIndex(int row, int col) {
@@ -138,22 +156,66 @@ public class TicTacToeGame {
 		return 0;
 
 	}
+	public void computerMove() {
+		Random random = new Random();
+		int move = random.nextInt(9) + 1;
+		while (!isFree(move))
+			move = random.nextInt(9) + 1;
+		board[move - 1] = computerSymbol;
+		System.out.println("After computer move");
+		showBoard();
+	}
 
+	public int nextWinnigMovePosition(char[] board, char character) {
+		TicTacToeGame temp = this.getCopy();
+
+		temp.choosePlayerSymbol(this.playerSymbol);
+		int winningPosition = -1;
+		for (int position = 1; position <= 9; position++) {
+			if (temp.isFree(position)) {
+				temp.playerMove(position);
+				if (temp.hasPlayerWon()) {
+					winningPosition = temp.winningPosition(this.playerSymbol);
+					break;
+				}
+			}
+		}
+
+		return winningPosition;
+	}
+
+	public boolean hasPlayerWon() {
+		return winningPosition(playerSymbol) != 0;
+	}
+
+	public boolean hasComputerWon() {
+		return winningPosition(computerSymbol) != 0;
+	}
 
 	public static void main(String[] args) {
 		TicTacToeGame game = new TicTacToeGame();
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Choose a symbol (X or O): ");
-		String symbol = sc.next();
-		game.choosePlayerSymbol(symbol.charAt(0));
-		System.out.println("Player has chosen: " + game.getPlayerSymbol());
+		int whoPlaysFirst = game.toss();
+		System.out.println("Player symbol is: " + game.getPlayerSymbol());
 		System.out.println("initial:");
 		game.showBoard();
-		game.playerMove(1);
-		game.playerMove(5);
-		game.playerMove(9);
-		
-		System.out.println("Winning Position of player"+game.winningPosition(game.getPlayerSymbol()));
+		if (whoPlaysFirst == 0)
+			game.computerMove();
+
+		while (true) {
+			if (!game.hasComputerWon()) {
+				System.out.print("Enter position to play[1-9]: ");
+				game.playerMove(sc.nextInt());
+			}
+			if (!game.hasPlayerWon())
+				game.computerMove();
+			else
+				break;
+		}
+
+		System.out.println(game.hasPlayerWon() ? "YOU WON!" : "COMPUTER WON");
 		sc.close();
+
+	}
 	}
 }
