@@ -58,6 +58,7 @@ public class TicTacToeGame {
 		if (row > 3 || row < 1 || col > 3 || col < 1) {
 			System.out.println("Invalid move!");
 			return;
+			
 		}
 
 		if (isFree(row, col)) {
