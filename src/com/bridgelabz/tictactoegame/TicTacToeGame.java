@@ -116,6 +116,7 @@ public class TicTacToeGame {
 				System.out.println("---------");
 		}
 	}
+	
 	/**
 	 * Toss to select who plays first
 	*/ 
