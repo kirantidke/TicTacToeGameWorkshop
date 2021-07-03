@@ -109,6 +109,36 @@ public class TicTacToeGame {
 			System.out.println("Computer plays first");
 		}
 	}
+	
+	public int winningPosition(char symbol) {
+		// horizontal
+		if (board[getIndex(1, 1)] == symbol && board[getIndex(1, 2)] == symbol && board[getIndex(1, 3)] == symbol)
+			return 1;
+		if (board[getIndex(2, 1)] == symbol && board[getIndex(2, 2)] == symbol && board[getIndex(2, 3)] == symbol)
+			return 2;
+		if (board[getIndex(3, 1)] == symbol && board[getIndex(3, 2)] == symbol && board[getIndex(3, 3)] == symbol)
+			return 3;
+
+		// vertical
+		if (board[getIndex(1, 1)] == symbol && board[getIndex(2, 1)] == symbol && board[getIndex(3, 1)] == symbol)
+			return 4;
+		if (board[getIndex(1, 2)] == symbol && board[getIndex(2, 2)] == symbol && board[getIndex(3, 2)] == symbol)
+			return 5;
+		if (board[getIndex(1, 3)] == symbol && board[getIndex(2, 3)] == symbol && board[getIndex(3, 3)] == symbol)
+			return 6;
+
+		// diagonal
+		if (board[getIndex(1, 1)] == symbol && board[getIndex(2, 2)] == symbol && board[getIndex(3, 3)] == symbol)
+			return 7;
+
+		// off diagonal
+		if (board[getIndex(1, 3)] == symbol && board[getIndex(2, 2)] == symbol && board[getIndex(3, 1)] == symbol)
+			return 8;
+
+		return 0;
+
+	}
+
 
 	public static void main(String[] args) {
 		TicTacToeGame game = new TicTacToeGame();
@@ -119,14 +149,11 @@ public class TicTacToeGame {
 		System.out.println("Player has chosen: " + game.getPlayerSymbol());
 		System.out.println("initial:");
 		game.showBoard();
-		System.out.println("Enter position to move: ");
-		int position = sc.nextInt();
-
-		System.out.println(game.isFree(3));
-		game.isFree(3);
-
-		game.playerMove(3);
-		System.out.println("player moved by " + position);
-		game.toss();
+		game.playerMove(1);
+		game.playerMove(5);
+		game.playerMove(9);
+		
+		System.out.println("Winning Position of player"+game.winningPosition(game.getPlayerSymbol()));
+		sc.close();
 	}
 }
