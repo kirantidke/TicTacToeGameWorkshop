@@ -98,6 +98,17 @@ public class TicTacToeGame {
 				System.out.println("---------");
 		}
 	}
+	/**
+	 * Toss to select who plays first
+	*/ 
+	private void toss() {
+		int tossResult = (int) Math.floor(Math.random() * 10) % 2;
+		if (tossResult == 1)
+			System.out.println("User plays first");
+		else {
+			System.out.println("Computer plays first");
+		}
+	}
 
 	public static void main(String[] args) {
 		TicTacToeGame game = new TicTacToeGame();
@@ -112,10 +123,10 @@ public class TicTacToeGame {
 		int position = sc.nextInt();
 
 		System.out.println(game.isFree(3));
-		// game.isFree(3);
+		game.isFree(3);
 
 		game.playerMove(3);
 		System.out.println("player moved by " + position);
-
+		game.toss();
 	}
 }
